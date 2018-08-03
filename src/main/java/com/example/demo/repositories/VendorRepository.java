@@ -10,6 +10,6 @@ public interface VendorRepository extends CrudRepository<Vendor,Long>{
 
 
 	List<Vendor> findAll();
-	
+
 	
 }

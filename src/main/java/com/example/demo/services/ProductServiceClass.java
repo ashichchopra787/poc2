@@ -30,11 +30,12 @@ public class ProductServiceClass {
 			return status;
 		}
 		
-		/*else if(vendorRepository.findById(vendorId) == null)
+		else if(productObject.getVendor().getVendor_Phone().length()>10 || productObject.getVendor().getVendor_Phone().length()<10 )
 		{
 			
-			status="Vendor Id not present";
-		}*/
+			status="Please enter a 10 digit mobile number";
+			return status;
+		}
 		else
 		{	
 		  status="product Inserted";

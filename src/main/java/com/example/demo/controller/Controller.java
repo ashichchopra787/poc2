@@ -39,14 +39,20 @@ public class Controller {
 	@PutMapping("/updateVendor/{id}")
 	public ResponseEntity<?> updateVendor(@RequestBody Vendor vendor, @PathVariable long id) {
 
-		Optional<Vendor> vendorOptional = vendorServiceClass.findById(id);
-
-		if (!vendorOptional.isPresent())
-			return ResponseEntity.notFound().build();
+	    Vendor newVendor = null;
+		Optional<Vendor> vendorData = vendorServiceClass.findById(id);;
+	    if (!vendorData.isPresent())
+		  return ResponseEntity.notFound().build();
 		
 		else 
-		 vendor.setVendor_Id(id);	
-		 vendorServiceClass.addVendor(vendor);
+			
+		 newVendor = vendorData.get(); 
+	     newVendor.setProductSet(newVendor.getProductSet());
+	     newVendor.setVendor_Name(vendor.getVendor_Name());
+	     newVendor.setVendor_Address(vendor.getVendor_Address());
+	     newVendor.setVendor_Phone(vendor.getVendor_Phone());
+	     
+		 vendorServiceClass.addVendor(newVendor);
 		
 		 return new ResponseEntity<String>("Vendor Updated",HttpStatus.OK);
 	}
@@ -91,14 +97,20 @@ public class Controller {
 	@PutMapping("/updateProduct/{id}")
 	public ResponseEntity<?> updateProduct(@RequestBody Product product, @PathVariable long id) {
 
-		Optional<Product> vendorOptional = productServiceClass.findById(id);
-
-		if (!vendorOptional.isPresent())
+		Optional<Product> productOptional = productServiceClass.findById(id);        
+		Product newProduct = null;
+        if (!productOptional.isPresent())
 			return ResponseEntity.notFound().build();
 		
 		else 
-		product.setProduct_Id(id);
-		productServiceClass.addProduct(product);
+		newProduct =  productOptional.get();
+        newProduct.setProduct_Name(product.getProduct_Name());
+        newProduct.setProduct_Price(product.getProduct_Price());
+        newProduct.setExpiry_Date(product.getExpiry_Date());
+        newProduct.setManufacturing_Date(product.getManufacturing_Date());
+        newProduct.setVendor(newProduct.getVendor());
+        
+		productServiceClass.addProduct(newProduct);
 		
 		return new ResponseEntity<String>("Product Updated",HttpStatus.OK);
 	}
