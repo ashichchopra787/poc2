@@ -47,11 +47,18 @@ public class Controller {
 		else 
 			
 		 newVendor = vendorData.get(); 
-	     newVendor.setProductSet(newVendor.getProductSet());
+	   
 	     newVendor.setVendor_Name(vendor.getVendor_Name());
 	     newVendor.setVendor_Address(vendor.getVendor_Address());
 	     newVendor.setVendor_Phone(vendor.getVendor_Phone());
-	     
+	     if(vendor.getProductSet()==null)
+	        {  
+	    	  newVendor.setProductSet(newVendor.getProductSet());
+	        }
+	        else
+	        {
+	          newVendor.setProductSet(vendor.getProductSet());
+	        }
 		 vendorServiceClass.addVendor(newVendor);
 		
 		 return new ResponseEntity<String>("Vendor Updated",HttpStatus.OK);
@@ -103,15 +110,22 @@ public class Controller {
 			return ResponseEntity.notFound().build();
 		
 		else 
-		newProduct =  productOptional.get();
-        newProduct.setProduct_Name(product.getProduct_Name());
-        newProduct.setProduct_Price(product.getProduct_Price());
-        newProduct.setExpiry_Date(product.getExpiry_Date());
-        newProduct.setManufacturing_Date(product.getManufacturing_Date());
-        newProduct.setVendor(newProduct.getVendor());
-        
-		productServiceClass.addProduct(newProduct);
-		
+		{   newProduct =  productOptional.get();
+	        newProduct.setProduct_Name(product.getProduct_Name());
+	        newProduct.setProduct_Price(product.getProduct_Price());
+	        newProduct.setExpiry_Date(product.getExpiry_Date());
+	        newProduct.setManufacturing_Date(product.getManufacturing_Date());
+	        if(product.getVendor()==null)
+	        {  
+	        	newProduct.setVendor(newProduct.getVendor());
+	        }
+	        else
+	        {
+	        	newProduct.setVendor(product.getVendor());
+	        }
+	        	
+			productServiceClass.addProduct(newProduct);
+		}
 		return new ResponseEntity<String>("Product Updated",HttpStatus.OK);
 	}
 	
